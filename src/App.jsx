@@ -1,29 +1,43 @@
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Main from "./pages/Main";
 import Mypage from "./pages/mypage/Mypage";
 import AppLayout from "./components/layout/AppLayout";
+import axios from "./utils/axios";
 import "./App.css";
-
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const accessToken = params.get("accessToken");
-    const refreshToken = params.get("refreshToken");
+    const checkLogin = async () => {
+      const params = new URLSearchParams(location.search);
+      const accessToken = params.get("accessToken");
+      const refreshToken = params.get("refreshToken");
 
-    if (accessToken && refreshToken) {
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      setIsLoggedIn(true);
-      navigate("/");
-    } else if (localStorage.getItem("accessToken")) {
-      setIsLoggedIn(true);
-    }
-  }, [location, navigate]);
+      if (accessToken && refreshToken) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        try {
+          const res = await axios.get("/members", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          const { name } = res.data;
+          localStorage.setItem("nickname", name);
+          setIsLoggedIn(true);
+        } catch (err) {
+          console.error("유저 정보 불러오기 실패", err);
+        }
+      } else if (localStorage.getItem("accessToken")) {
+        setIsLoggedIn(true);
+      }
+    };
+
+    checkLogin();
+  }, [location]);
 
   return (
     <div className="appWrapper">
