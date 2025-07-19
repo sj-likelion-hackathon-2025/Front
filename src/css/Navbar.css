@@ -1,0 +1,9 @@
+.navbar {
+  background-color: rgb(255, 255, 255);
+  height: 12vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5rem;
+  cursor: pointer;
+}

@@ -1,0 +1,42 @@
+.modalWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalTitle {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 320px;
+  padding: 2.5rem 0.3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  font-size: large;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  width: 30px;
+  height: 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}

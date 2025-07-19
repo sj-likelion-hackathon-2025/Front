@@ -1,0 +1,11 @@
+.footer {
+  background-color: #e4f2fd;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  color: #9b9b9b;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  cursor: pointer;
+}
