@@ -1,4 +1,4 @@
-import "../../css/modalWrapper.css";
+import "../../css/ModalWrapper.css";
 
 function ModalWrapper({ children, onClose }) {
   return (

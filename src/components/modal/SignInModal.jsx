@@ -1,6 +1,8 @@
 import React from "react";
 import ModalWrapper from "../common/ModalWrapper";
 import "../../css/SignInModal.css";
+import InputWrapper from "../common/InputWrapper";
+import ButtonWrapper from "../common/ButtonWrapper";
 
 function SignInModal({
   onClose,
@@ -26,12 +28,18 @@ function SignInModal({
         />
       </div>
       <div className="inputWrapper">
-        <input type="text" value={name} onChange={handleNameChange} />
-        <button onClick={checkDuplicate}>중복확인</button>
+        <InputWrapper
+          value={name}
+          onChange={handleNameChange}
+          placeholder="닉네임 입력"
+        />
+        <ButtonWrapper variant="primary" onClick={checkDuplicate}>
+          중복확인
+        </ButtonWrapper>
       </div>
-      <button className="homeButton" onClick={goHome}>
+      <ButtonWrapper variant="primary" onClick={goHome}>
         홈으로
-      </button>
+      </ButtonWrapper>
     </ModalWrapper>
   );
 }

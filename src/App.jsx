@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     const checkLogin = async () => {
       const params = new URLSearchParams(location.search);
@@ -25,9 +25,12 @@ function App() {
             },
           });
 
-          const { name } = res.data;
-          localStorage.setItem("nickname", name);
+          const { name, profileImageUrl } = res.data;
+          const isNewUser = !name || name === "null" || name === "";
+          localStorage.setItem("nickname", name ?? "");
+          localStorage.setItem("profileImageUrl", profileImageUrl ?? "");
           setIsLoggedIn(true);
+          setUserInfo({ name, profileImageUrl, isNewUser });
         } catch (err) {
           console.error("유저 정보 불러오기 실패", err);
         }
@@ -45,7 +48,11 @@ function App() {
         <Route
           path="/"
           element={
-            <AppLayout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <AppLayout
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              userInfo={userInfo}
+            />
           }
         >
           <Route index element={<Main />} />
