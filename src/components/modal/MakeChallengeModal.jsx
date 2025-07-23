@@ -1,10 +1,9 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ModalWrapper from "../common/ModalWrapper";
 import ButtonWrapper from "../common/ButtonWrapper";
 import "../../css/MakeChallengeModal.css";
 import instance from "../../utils/axios";
+import calendarLogo from "../../assets/images/callendarLogo.png";
 
 function MakeChallengeModal({ onClose }) {
   const [formData, setFormData] = useState({
@@ -13,9 +12,12 @@ function MakeChallengeModal({ onClose }) {
     category: "",
     startDate: "",
     endDate: "",
-    maxParticipantCount: "",
-    rules: "",
+    maxParticipants: "",
+    rule: "",
   });
+
+  const startInputRef = useRef(null);
+  const endInputRef = useRef(null);
 
   const categories = [
     { id: "EXERCISE", name: "운동" },
@@ -35,47 +37,49 @@ function MakeChallengeModal({ onClose }) {
   };
 
   const handleDateInputClick = (type) => {
-    const input = document.getElementById(`hidden-${type}-input`);
-    if (input) {
-      input.click();
-    }
+    const ref = type === "start" ? startInputRef : endInputRef;
+    ref.current?.showPicker?.();
+    ref.current?.click();
   };
 
-  const handleSubmit = async () => {
-    if (!formData.title.trim()) {
-      alert("제목을 입력해주세요.");
-      return;
-    }
-    if (!formData.introduction.trim()) {
-      alert("한줄소개를 입력해주세요.");
-      return;
-    }
-    if (!formData.category) {
-      alert("카테고리를 선택해주세요.");
-      return;
-    }
-    if (!formData.startDate || !formData.endDate) {
-      alert("시작일과 종료일을 모두 선택해주세요.");
-      return;
-    }
-    if (!formData.maxParticipantCount) {
-      alert("참여자 수를 입력해주세요.");
-      return;
-    }
-    if (!formData.rules.trim()) {
-      alert("규칙을 입력해주세요.");
+  const validateForm = () => {
+    const {
+      title,
+      introduction,
+      category,
+      startDate,
+      endDate,
+      maxParticipants,
+      rule,
+    } = formData;
+    if (!title.trim()) return "제목을 입력해주세요.";
+    if (!introduction.trim()) return "한줄소개를 입력해주세요.";
+    if (!category) return "카테고리를 선택해주세요.";
+    if (!startDate || !endDate) return "시작일과 종료일을 모두 선택해주세요.";
+    if (startDate > endDate) return "종료일은 시작일보다 같거나 늦어야 합니다.";
+    if (!maxParticipants) return "참여자 수를 입력해주세요.";
+    if (!rule.trim()) return "규칙을 입력해주세요.";
+    return null;
+  };
+
+  const handleSubmit = () => {
+    const errorMessage = validateForm();
+    if (errorMessage) {
+      alert(errorMessage);
       return;
     }
 
-    try {
-      await instance.post("/challenges", formData);
-      alert("챌린지가 생성되었습니다!");
-      onClose();
-      window.location.reload();
-    } catch (error) {
-      console.error("챌린지 생성 실패:", error);
-      alert("챌린지 생성에 실패했습니다.");
-    }
+    instance
+      .post("/challenges", formData)
+      .then(() => {
+        alert("챌린지가 생성되었습니다!");
+        onClose();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("챌린지 생성 실패:", error);
+        alert("챌린지 생성에 실패했습니다.");
+      });
   };
 
   return (
@@ -108,11 +112,11 @@ function MakeChallengeModal({ onClose }) {
             {categories.map((cat) => (
               <button
                 key={cat.id}
+                type="button"
                 className={`category-btn ${
                   formData.category === cat.id ? "selected" : ""
                 }`}
                 onClick={() => handleCategorySelect(cat.id)}
-                type="button"
               >
                 {cat.name}
               </button>
@@ -132,18 +136,22 @@ function MakeChallengeModal({ onClose }) {
                   onClick={() => handleDateInputClick("start")}
                   readOnly
                 />
-                <span className="calendar-icon">📅</span>
+                <span className="calendar-icon">
+                  <img src={calendarLogo} alt="calendar" />
+                </span>
                 <input
                   type="date"
-                  id="hidden-start-input"
                   className="hidden-date-input"
                   value={formData.startDate}
                   onChange={(e) =>
                     handleInputChange("startDate", e.target.value)
                   }
+                  ref={startInputRef}
                 />
               </div>
+
               <span className="date-separator">~</span>
+
               <div className="date-input-container">
                 <input
                   type="text"
@@ -153,13 +161,15 @@ function MakeChallengeModal({ onClose }) {
                   onClick={() => handleDateInputClick("end")}
                   readOnly
                 />
-                <span className="calendar-icon">📅</span>
+                <span className="calendar-icon">
+                  <img src={calendarLogo} alt="calendar" />
+                </span>
                 <input
                   type="date"
-                  id="hidden-end-input"
                   className="hidden-date-input"
                   value={formData.endDate}
                   onChange={(e) => handleInputChange("endDate", e.target.value)}
+                  ref={endInputRef}
                 />
               </div>
             </div>
@@ -169,23 +179,23 @@ function MakeChallengeModal({ onClose }) {
         <div className="form-group">
           <input
             type="number"
-            placeholder="5인"
+            placeholder="참여 인원(2-5인)"
             className="form-input"
-            value={formData.maxParticipantCount}
+            value={formData.maxParticipants}
             onChange={(e) =>
-              handleInputChange("maxParticipantCount", e.target.value)
+              handleInputChange("maxParticipants", e.target.value)
             }
-            min="1"
-            max="100"
+            min="2"
+            max="5"
           />
         </div>
 
         <div className="form-group">
           <textarea
-            placeholder="매일 2회로 규정합니다. 시작 시간과 종료 시간, 거리를 포함하여 인증 사진 부탁"
-            className="form-textarea rules-textarea"
-            value={formData.rules}
-            onChange={(e) => handleInputChange("rules", e.target.value)}
+            placeholder="챌린지 참여 인증 규칙"
+            className="form-textarea rule-textarea"
+            value={formData.rule}
+            onChange={(e) => handleInputChange("rule", e.target.value)}
           />
         </div>
 

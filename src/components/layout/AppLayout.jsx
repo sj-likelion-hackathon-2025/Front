@@ -64,7 +64,7 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        validateStatus: (status) => status === 204 || status === 409, // 둘 다 허용
+        validateStatus: (status) => status === 204 || status === 409, 
       });
 
       if (res.status === 204) {

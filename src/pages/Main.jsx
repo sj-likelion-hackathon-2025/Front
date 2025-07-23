@@ -75,7 +75,11 @@ function Main() {
           내 챌린지
         </button>
       </div>
+      <button className="plus-button" onClick={() => setShowModal(true)}>
+        +
+      </button>
 
+      {showModal && <MakeChallengeModal onClose={() => setShowModal(false)} />}
       {tab === "RECRUITING" && (
         <div className="challenge-list">
           {challenges.map((item) => (
@@ -102,12 +106,6 @@ function Main() {
           ))}
         </div>
       )}
-
-      <button className="plus-button" onClick={() => setShowModal(true)}>
-        +
-      </button>
-
-      {showModal && <MakeChallengeModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }
