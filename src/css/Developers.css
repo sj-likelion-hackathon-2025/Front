@@ -1,0 +1,99 @@
+.developers-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.developers-title {
+  text-align: center;
+  margin: 32px 0 48px 0;
+}
+
+.developers-title h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #222222;
+  margin: 0;
+}
+
+.developers-list {
+  flex: 1;
+  padding: 0 30px;
+}
+
+.developer-role h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #222222;
+  padding-bottom: 1rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.contact-text {
+  font-size: 13px;
+  color: #374957;
+  word-break: break-all;
+}
+.developer-card {
+  margin-bottom: 40px;
+}
+
+.developer-role {
+  margin-bottom: 8px;
+}
+
+.developer-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.developer-image img.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.developer-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; 
+}
+
+.developer-name {
+  font-size: 18px;
+  margin: 5px 0px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-icon img {
+  width: 16px;
+  height: 16px;
+}

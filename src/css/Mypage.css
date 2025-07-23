@@ -1,0 +1,142 @@
+.mypage-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex: 1;
+  margin: 0px 10px;
+}
+
+.profile-image-container {
+  margin-bottom: 0;
+}
+
+.profile-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e4f2fd;
+}
+
+.profile-info {
+  text-align: left; 
+  margin-bottom: 0; 
+}
+
+.name-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 500;
+  color: #222222;
+}
+
+.grade-text {
+  font-size: 14px;
+  color: #9b9b9b;
+}
+
+.grade-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.grade {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0daeaf;
+}
+
+.info-icon {
+  font-size: 16px;
+  color: #9b9b9b;
+}
+
+.point-section {
+  display: flex;
+  justify-content: center;
+}
+
+.point-badge {
+  background-color: #3fa9f5;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.action-buttons {
+  padding: 0 64px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.primary-btn,
+.secondary-btn {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.primary-btn {
+  background-color: #fee500;
+  color: #000000;
+}
+
+.primary-btn:hover {
+  background-color: #e6cf00;
+}
+
+.secondary-btn {
+  background-color: #e4f2fd;
+  color: #222222;
+  border: 1px solid #e4f2fd;
+}
+
+.secondary-btn:hover {
+  background-color: #d1e9fc;
+}
+
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 16px;
+  color: #9b9b9b;
+}
+
+.error {
+  color: #ff4444;
+}

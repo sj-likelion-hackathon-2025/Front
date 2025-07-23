@@ -9,3 +9,12 @@
   gap: 0.8rem;
   cursor: pointer;
 }
+.footer-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  text-decoration: none;
+}

@@ -1,0 +1,109 @@
+.level-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.level-header {
+  padding: 16px;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #374957;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.menu-btn:hover {
+  opacity: 0.7;
+}
+
+.level-title {
+  text-align: center;
+  margin: 24px 0 32px 0;
+}
+
+.level-title h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #222222;
+  margin: 0;
+}
+
+.level-system {
+  flex: 1;
+  padding: 0 32px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.level-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.level-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.level-name {
+  font-size: 42px;
+  font-weight: bold;
+  width: 150px;
+}
+
+.level-name.rookie {
+  color: #0DAEAF;
+}
+
+.level-name.pro {
+  color: #034dac;
+}
+
+.level-name.master {
+  color: #d93cb2;
+}
+
+.level-name.grand {
+  color: #9000ff;
+}
+
+.level-name.legend {
+  color: #ff1744;
+}
+
+.level-details {
+  flex: 1;
+}
+
+.level-korean {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 4px;
+}
+
+.level-points {
+  font-size: 16px;
+  color: #374957;
+}
+
+.level-arrow {
+  margin: 8px 0;
+  display: flex;
+  justify-content: center;
+}

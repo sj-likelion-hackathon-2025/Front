@@ -1,52 +1,81 @@
-.profile {
-  position: relative;
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
 }
 
-.profile img {
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.profileImageWrapper {
+  position: relative;
   width: 120px;
   height: 120px;
-  border-radius: 50%;
 }
 
-.profile label {
+.profileImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.editIcon {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: #e4f2fd;
+  bottom: 3px;
+  right: -0.5rem;
+  background: #e4f2fd;
   border-radius: 50%;
-  border: none;
-  width: 1.5rem;
-  height: 1.5rem;
+  padding: 5px;
+  font-size: 13px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transform: scaleX(-1);
+  width: 1rem;
+}
+
+.inputGroup {
   display: flex;
-  transform: rotate(90deg);
-  align-items: center;
+  gap: 8px;
   justify-content: center;
-  font-size: 14px;
-  cursor: pointer;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-.inputWrapper {
+.fullWidthBtn {
+  margin-top: 0.5rem;
+}
+.inputGroupWithButton {
   display: flex;
-  gap: 0.2rem;
-  margin-top: 1.5rem;
-  border: 1px solid #bbdefa;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
-.inputWrapper button {
-  background-color: #f0f0f0;
-  border: none;
-  padding: 0.5rem 0.8rem;
+.inputWithButtonWrapper {
+  position: relative;
+  width: 240px;
+}
+
+.inputWithButtonWrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 75px;
+}
+
+.insideCheckBtn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  padding: 4px 8px;
   border-radius: 6px;
-  cursor: pointer;
-}
-
-.homeButton {
-  margin-top: 1.5rem;
-  background-color: #007aff;
-  color: white;
-  padding: 0.7rem 1.2rem;
   border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  background-color: #e4f2fd;
+  color: #3fa9f5;
   cursor: pointer;
 }

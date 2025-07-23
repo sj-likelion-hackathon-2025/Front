@@ -4,6 +4,9 @@ import Main from "./pages/Main";
 import Mypage from "./pages/mypage/Mypage";
 import AppLayout from "./components/layout/AppLayout";
 import axios from "./utils/axios";
+import Developers from "./pages/Developers";
+import Level from "./pages/Level";
+import About from "./pages/About";
 import "./App.css";
 function App() {
   const location = useLocation();
@@ -56,6 +59,9 @@ function App() {
           }
         >
           <Route index element={<Main />} />
+          <Route path="about" element={<About />} />
+          <Route path="level" element={<Level />} />
+          <Route path="developers" element={<Developers />} />
           <Route path="mypage" element={<Mypage />} />
         </Route>
       </Routes>

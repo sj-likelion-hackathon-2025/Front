@@ -4,17 +4,11 @@ import "../../css/Navbar.css";
 import LoginModal from "../modal/LoginModal";
 import navHamburgerLogo from "../../assets/images/navHamburgerLogo.png";
 import navBellIconOn from "../../assets/images/navBellIconOn.png";
-import navBellIconOff from "../../assets/images/navBellIconOff.png";
 
-function Navbar({ isLoggedIn }) {
+function Navbar({ isLoggedIn, onLoginClick, onMakeChallengeClick }) {
   const [isLoginModal, setIsLoginModal] = useState(false);
-  const [isBellOn, setIsBellOn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleBellClick = () => {
-    setIsBellOn((prev) => !prev);
-  };
 
   const handleHamburgerClick = () => {
     setIsMenuOpen((prev) => !prev);
@@ -29,15 +23,11 @@ function Navbar({ isLoggedIn }) {
           onClick={handleHamburgerClick}
           className="navbar-icon"
         />
+
         {!isLoggedIn ? (
-          <div onClick={() => setIsLoginModal(true)}>로그인</div>
+          <div onClick={onLoginClick}>로그인</div>
         ) : (
-          <img
-            src={isBellOn ? navBellIconOn : navBellIconOff}
-            onClick={handleBellClick}
-            className="navbar-icon"
-            alt="알림"
-          />
+          <img src={navBellIconOn} className="navbar-icon" alt="알림" />
         )}
       </div>
 
@@ -67,19 +57,11 @@ function Navbar({ isLoggedIn }) {
             </li>
             <li
               onClick={() => {
-                navigate("/makeChallengeModal");
+                onMakeChallengeClick();
                 setIsMenuOpen(false);
               }}
             >
               챌린지 만들기
-            </li>
-            <li
-              onClick={() => {
-                navigate("/community");
-                setIsMenuOpen(false);
-              }}
-            >
-              게시판 목록
             </li>
           </ul>
         </div>

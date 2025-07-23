@@ -9,15 +9,16 @@ import axios from "../../utils/axios";
 function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
-
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [showMakeChallengeModal, setShowMakeChallengeModal] = useState(false);
+
   useEffect(() => {
     if (userInfo) {
       console.log("유저 정보:", userInfo);
       setNickname(userInfo.name ?? "");
       setProfileImage(userInfo.profileImageUrl ?? "");
-      setShowSignInModal(true); 
+      setShowSignInModal(true);
     }
   }, [userInfo]);
 
@@ -30,16 +31,17 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
       });
 
       const { name, profileImageUrl } = res.data;
+
       setNickname(name ?? "");
       setProfileImage(profileImageUrl ?? "");
-
       localStorage.setItem("nickname", name ?? "");
       localStorage.setItem("profileImage", profileImageUrl ?? "");
-
       setIsLoggedIn(true);
 
-      if (!name || name === "null" || name === "") {
+      if (!name || name === "null" || name.trim() === "") {
         setShowSignInModal(true);
+      } else {
+        setShowSignInModal(false);
       }
     } catch (err) {
       console.error("로그인 후 사용자 정보 조회 실패", err);
@@ -59,30 +61,48 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
   };
 
   const checkDuplicate = async () => {
-    try {
-      const res = await axios.get(`/members/check-name?name=${nickname}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        validateStatus: (status) => status === 204 || status === 409, 
-      });
+    const trimmedName = nickname.trim();
+    if (!trimmedName) {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
 
-      if (res.status === 204) {
+    try {
+      const res = await axios.get(
+        `/members/check-name?name=${encodeURIComponent(trimmedName)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          validateStatus: () => true,
+        }
+      );
+
+      if (res.status === 200) {
         alert("사용 가능한 닉네임입니다.");
-      } else {
+      } else if (res.status === 409) {
         alert("이미 사용 중인 닉네임입니다.");
+      } else if (res.status === 400) {
+        alert("닉네임 형식이 올바르지 않습니다.");
+      } else if (res.status === 401) {
+        alert("인증되지 않은 사용자입니다.");
+      } else {
+        console.log("예상치 못한 응답:", res);
+        alert("닉네임 중복 확인 실패: 서버 응답 상태 " + res.status);
       }
-    } catch {
-      alert("중복 확인 중 오류가 발생했습니다.");
+    } catch (err) {
+      console.error("중복확인 실패", err);
+      alert("서버 오류로 확인에 실패했습니다.");
     }
   };
-
   const submitSignUp = async () => {
     try {
       await axios.post(
         "/members",
         {
-          request: { name: nickname },
+          request: {
+            name: nickname,
+          },
           image: profileImage,
         },
         {
@@ -95,7 +115,8 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
       alert("회원가입이 완료되었습니다.");
       setShowSignInModal(false);
       window.location.href = "/";
-    } catch {
+    } catch (err) {
+      console.error("회원가입 실패", err);
       alert("회원가입 실패");
     }
   };
@@ -107,7 +128,12 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
       <Navbar
         isLoggedIn={isLoggedIn}
         onLoginClick={() => setShowLoginModal(true)}
+        onMakeChallengeClick={() => setShowMakeChallengeModal(true)} // 추가!
       />
+
+      {showMakeChallengeModal && (
+        <MakeChallengeModal onClose={() => setShowMakeChallengeModal(false)} />
+      )}
 
       {showLoginModal && (
         <LoginModal
@@ -131,6 +157,7 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
       <div style={{ flex: 1 }}>
         <Outlet />
       </div>
+
       <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
     </div>
   );

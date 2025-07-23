@@ -16,28 +16,38 @@ function SignInModal({
   return (
     <ModalWrapper onClose={onClose}>
       <strong className="modalTitle">Sign In</strong>
-      <div className="profile">
-        <img src={profileImage} />
-        <label htmlFor="profileInput">✎</label>
-        <input
-          type="file"
-          id="profileInput"
-          accept="image/*"
-          onChange={handleImageChange}
-          style={{ display: "none" }}
-        />
+
+      <div className="profileContainer">
+        <div className="profileImageWrapper">
+          <img src={profileImage} className="profileImage" alt="프로필" />
+          <label htmlFor="profileInput" className="editIcon">
+            ✎
+          </label>
+          <input
+            type="file"
+            id="profileInput"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: "none" }}
+          />
+        </div>
       </div>
-      <div className="inputWrapper">
-        <InputWrapper
-          value={name}
-          onChange={handleNameChange}
-          placeholder="닉네임 입력"
-        />
-        <ButtonWrapper variant="primary" onClick={checkDuplicate}>
-          중복확인
-        </ButtonWrapper>
+
+      <div className="inputGroupWithButton">
+        <div className="inputWithButtonWrapper">
+          <InputWrapper
+            value={name}
+            onChange={handleNameChange}
+            placeholder="닉네임 입력"
+            size="md"
+          />
+          <button className="insideCheckBtn" onClick={checkDuplicate}>
+            중복확인
+          </button>
+        </div>
       </div>
-      <ButtonWrapper variant="primary" onClick={goHome}>
+
+      <ButtonWrapper type="default" className="fullWidthBtn" onClick={goHome}>
         홈으로
       </ButtonWrapper>
     </ModalWrapper>
