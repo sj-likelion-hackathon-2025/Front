@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Main.css";
 import groupLogo from "../assets/images/groupLogo.png";
-import instance from "../utils/axios";
+import publicInstance from "../utils/publicAxios";
 import MakeChallengeModal from "../components/modal/MakeChallengeModal";
 
 function Main() {
@@ -14,7 +14,7 @@ function Main() {
 
   const fetchChallenges = async (reset = false) => {
     try {
-      const response = await instance.get(`/challenges`, {
+      const response = await publicInstance.get(`/challenges`, {
         params: {
           q: query || undefined,
           sortBy,
