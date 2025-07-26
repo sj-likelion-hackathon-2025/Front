@@ -1,12 +1,15 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Main from "./pages/Main";
+import Main from "./pages/challenge/Main";
 import Mypage from "./pages/mypage/Mypage";
 import AppLayout from "./components/layout/AppLayout";
 import axios from "./utils/axios";
 import Developers from "./pages/Developers";
 import Level from "./pages/Level";
 import About from "./pages/About";
+import Board from "./pages/challenge/Board";
+import CertificatePage from "./pages/CertificatePage";
+import EditProfile from './pages/mypage/EditProfile'
 import "./App.css";
 function App() {
   const location = useLocation();
@@ -63,6 +66,9 @@ function App() {
           <Route path="level" element={<Level />} />
           <Route path="developers" element={<Developers />} />
           <Route path="mypage" element={<Mypage />} />
+          <Route path="board/:challengeId" element={<Board />} />
+          <Route path="certificate/:challengeId" element={<CertificatePage />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </div>

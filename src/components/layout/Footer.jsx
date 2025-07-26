@@ -7,6 +7,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     setIsLoggedIn(false);
+    window.location.href = "/";
   };
 
   return (

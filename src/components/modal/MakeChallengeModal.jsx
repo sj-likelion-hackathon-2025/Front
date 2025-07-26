@@ -1,11 +1,12 @@
-import { useState, useRef } from "react";
+//챌린지 만들기 모달
+import { useState, useRef, useEffect } from "react";
 import ModalWrapper from "../common/ModalWrapper";
 import ButtonWrapper from "../common/ButtonWrapper";
 import "../../css/MakeChallengeModal.css";
 import instance from "../../utils/axios";
 import calendarLogo from "../../assets/images/callendarLogo.png";
 
-function MakeChallengeModal({ onClose }) {
+function MakeChallengeModal({ onClose, initialData }) {
   const [formData, setFormData] = useState({
     title: "",
     introduction: "",
@@ -18,6 +19,21 @@ function MakeChallengeModal({ onClose }) {
 
   const startInputRef = useRef(null);
   const endInputRef = useRef(null);
+
+  // 수정 모드일 때 초기 데이터 설정
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || "",
+        introduction: initialData.introduction || "",
+        category: initialData.category || "",
+        startDate: initialData.startDate || "",
+        endDate: initialData.endDate || "",
+        maxParticipants: initialData.maxParticipantCount || "",
+        rule: initialData.rule || "",
+      });
+    }
+  }, [initialData]);
 
   const categories = [
     { id: "EXERCISE", name: "운동" },
@@ -62,30 +78,57 @@ function MakeChallengeModal({ onClose }) {
     return null;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const errorMessage = validateForm();
     if (errorMessage) {
       alert(errorMessage);
       return;
     }
 
-    instance
-      .post("/challenges", formData)
-      .then(() => {
+    // 로그인 확인
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const payload = {
+        ...formData,
+        maxParticipants: Number(formData.maxParticipants), // 숫자 변환 보장
+      };
+
+      if (initialData) {
+        // 수정 모드
+        await instance.put(`/challenges/${initialData.challengeId}`, payload);
+        alert("챌린지가 수정되었습니다!");
+      } else {
+        // 생성 모드
+        await instance.post("/challenges", payload);
         alert("챌린지가 생성되었습니다!");
-        onClose();
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("챌린지 생성 실패:", error);
-        alert("챌린지 생성에 실패했습니다.");
-      });
+      }
+
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("챌린지 생성/수정 실패:", error);
+
+      if (error.response?.status === 401) {
+        alert("로그인이 필요하거나 토큰이 만료되었습니다.");
+      } else if (error.response && error.response.data?.message) {
+        alert(`실패: ${error.response.data.message}`);
+      } else {
+        alert("챌린지 생성/수정에 실패했습니다. 다시 시도해주세요.");
+      }
+    }
   };
 
   return (
     <ModalWrapper onClose={onClose}>
       <div className="challenge-modal">
-        <strong className="modal-title">챌린지 만들기</strong>
+        <strong className="modal-title">
+          {initialData ? "챌린지 수정" : "챌린지 만들기"}
+        </strong>
 
         <div className="form-group">
           <input

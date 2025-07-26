@@ -32,3 +32,55 @@
   color: #1976d2;
   cursor: pointer;
 }
+
+.notification-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 220px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-item.unread {
+  font-weight: bold;
+  background: #f9f9ff;
+}
+
+.notification-item.read {
+  color: #777;
+}
+
+.notification-empty {
+  padding: 10px;
+  color: gray;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.red-dot {
+  background-color: red;
+}
+
+.green-dot {
+  background-color: limegreen;
+}

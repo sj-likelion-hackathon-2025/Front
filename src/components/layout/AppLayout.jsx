@@ -3,8 +3,9 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import LoginModal from "../modal/LoginModal";
 import SignInModal from "../modal/SignInModal";
+import MakeChallengeModal from "../modal/MakeChallengeModal";
 import { Outlet } from "react-router-dom";
-import axios from "../../utils/axios";
+import instance from "../../utils/axios";
 
 function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -24,11 +25,7 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
 
   const handleLoginSuccess = async () => {
     try {
-      const res = await axios.get("/members", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const res = await instance.get("/members");
 
       const { name, profileImageUrl } = res.data;
 
@@ -68,12 +65,9 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
     }
 
     try {
-      const res = await axios.get(
+      const res = await instance.get(
         `/members/check-name?name=${encodeURIComponent(trimmedName)}`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
           validateStatus: () => true,
         }
       );
@@ -97,20 +91,12 @@ function AppLayout({ isLoggedIn, setIsLoggedIn, userInfo }) {
   };
   const submitSignUp = async () => {
     try {
-      await axios.post(
-        "/members",
-        {
-          request: {
-            name: nickname,
-          },
-          image: profileImage,
+      await instance.post("/members", {
+        request: {
+          name: nickname,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+        image: profileImage,
+      });
 
       alert("회원가입이 완료되었습니다.");
       setShowSignInModal(false);

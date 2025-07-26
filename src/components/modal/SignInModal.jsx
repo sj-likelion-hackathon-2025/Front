@@ -19,7 +19,12 @@ function SignInModal({
 
       <div className="profileContainer">
         <div className="profileImageWrapper">
-          <img src={profileImage} className="profileImage" alt="프로필" />
+          <img
+            src={profileImage || "https://via.placeholder.com/150"}
+            className="profileImage"
+            alt="프로필"
+          />
+
           <label htmlFor="profileInput" className="editIcon">
             ✎
           </label>
